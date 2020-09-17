@@ -1,5 +1,7 @@
 const chalk = require('chalk');
+const { argv } = require('yargs');
 const yargs = require('yargs');
+const notes = require('./notes')
 
 yargs.command({
     command: 'add',
@@ -16,16 +18,23 @@ yargs.command({
         }
     },
     handler: function(argv) {
-        console.log(chalk.blue(' Added: ', argv.title, ' '))
-        console.log(chalk.greenBright.inverse(' Task: ', argv.body, ' '))
+        const obj = { title: argv.title, body: argv.body };
+        notes.add(obj);
     }
 })
     
 yargs.command({
     command: 'delete',
     describe: 'Delete a note',
+    build: {
+        title: {
+            describe: 'Title of the note to delete',
+            type: 'string',
+            demandOption: true
+        }
+    },
     handler: function () {
-        console.log(chalk.red.inverse(' Deleted '))
+        notes.delete(argv.title)
     }
 })
 
@@ -41,7 +50,7 @@ yargs.command({
     command: 'read',
     describe: 'Read a todo task',
     handler: function () {
-        console.log(chalk.<i class="fa fa-bullseye" aria-hidden="true"></i>(' Read '))
+        console.log(chalk.green.inverse(' Read '))
     }
 })
 
