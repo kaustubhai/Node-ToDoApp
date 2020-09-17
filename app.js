@@ -4,8 +4,20 @@ const yargs = require('yargs');
 yargs.command({
     command: 'add',
     describe: 'Add a new note',
-    handler: function() {
-        console.log(chalk.greenBright.inverse(' Added '))
+    builder: {
+        title: {
+            describe: 'Title of the task',
+            demandOption: true,
+            type: 'string',
+        },
+        body: {
+            describe: 'Body of the task',
+            type: 'string',
+        }
+    },
+    handler: function(argv) {
+        console.log(chalk.blue(' Added: ', argv.title, ' '))
+        console.log(chalk.greenBright.inverse(' Task: ', argv.body, ' '))
     }
 })
     
@@ -29,7 +41,8 @@ yargs.command({
     command: 'read',
     describe: 'Read a todo task',
     handler: function () {
-        console.log(chalk.green.inverse(' Read '))
+        console.log(chalk.<i class="fa fa-bullseye" aria-hidden="true"></i>(' Read '))
     }
 })
-console.log(yargs.argv)
+
+yargs.parse()
